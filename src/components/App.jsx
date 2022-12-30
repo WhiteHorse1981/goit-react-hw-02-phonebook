@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import css from '../components/App.module.css';
 
 export class App extends Component {
   state = {
@@ -12,19 +13,15 @@ export class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { filter, value } = e.target;
+    this.setState({ [filter]: value });
   };
 
-  handleSubmit = e => {
+  handleSubmit = ({name, number}) => {
     const id = nanoid();
-    const name = e.name;
-    const number = e.number;
     const contactsLists = [...this.state.contacts];
 
     if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
@@ -36,9 +33,9 @@ export class App extends Component {
     this.setState({ contacts: contactsLists });
   };
 
-  handleDelete = e => {
+  handleDelete = elementDeleteId => {
     this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== e),
+      contacts: prevState.contacts.filter(contact => contact.id !== elementDeleteId),
     }));
   };
 
@@ -56,16 +53,7 @@ export class App extends Component {
     const { filter } = this.state;
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 20,
-          color: '#010101',
-        }}
-      >
+      <div className={css.app_style}>
         <h1>Phonebook</h1>
         <ContactForm handleSubmit={this.handleSubmit} />
         <h2> Contacts</h2>
