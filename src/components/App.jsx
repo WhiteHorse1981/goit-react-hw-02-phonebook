@@ -16,8 +16,7 @@ export class App extends Component {
   };
 
   handleChange = e => {
-    const { filter, value } = e.target;
-    this.setState({ [filter]: value });
+    this.setState( {filter: e.target.value});
   };
 
   handleSubmit = ({name, number}) => {
